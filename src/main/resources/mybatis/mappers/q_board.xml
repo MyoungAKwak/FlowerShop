@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.board">
+<resultMap id="articlesResult" type="articleVO">
+  <result property="rownum" column="rownum" />
+    <result property="level" column="LVL" />
+    <result property="articleNO" column="articleNO" />
+    <result property="parentNO" column="parentNO" />
+    <result property="member_id" column="member_id" />  
+    <result property="title" column="title" />
+    <result property="content" column="content" />
+    <result property="writeDate" column="writeDate" />
+    <result property="type" column="type" />
+    <result property="cnt" column="cnt" />
+  </resultMap> 
+
+
+
+ <!-- 페이징기능 -->
+  <select id="selectTotArticles" resultType="int">
+  <![CDATA[
+  select count(articleNO) from t_board
+  ]]>
+  </select>
+ 
+ <select id="selectAllArticlesList" parameterType="java.util.Map" resultMap="articlesResult"   >
+ <![CDATA[
+ 
+  select *
+from 
+(select rownum as recNum,
+                 +LVL,
+                 articleNO,
+                 parentNO,
+                 title,
+                 writedate,
+                 member_id,
+                 type,
+                 cnt
+from (select LEVEL as LVL,
+                      articleNO,
+                      parentNO,
+                      title,
+                      member_id,
+                      writeDate,
+                      type,
+                      cnt
+        from t_board
+        where type = 'f'
+        START WITH parentNO = 0
+        CONNECT BY PRIOR articleNO = parentno
+        ORDER SIBLINGS BY articleNO DESC))
+where recNum between(#{section}-1)*100+(#{pageNum}-1)*10+1 and (#{section}-1)*100+#{pageNum}*10
+
+]]>
+  </select>
+  
+  <select id="selectNotice" resultMap="articlesResult" >
+    <![CDATA[
+      SELECT level as LVL, articleNO, parentNO, title, content, writeDate,  member_id, cnt
+      from t_board
+      where type='t'
+      START WITH  parentNO=0
+      CONNECT BY PRIOR articleNO=parentNO 
+      ORDER SIBLINGS BY articleNO ASC
+    ]]>
+  </select>
+
+
+  <update id="update_cnt">
+     <![CDATA[
+	UPDATE t_board
+	SET cnt = cnt +1
+	WHERE articleNO=#{articleNO}
+	   ]]>
+   </update>
+  
+
+<insert id="insertNewArticle"  parameterType="java.util.Map">
+		<![CDATA[
+			INSERT into t_board(articleNO, parentNO,title,content, member_id, type)
+			VALUES(#{articleNO},#{parentNO},#{title},#{content},#{member_id},#{type})
+		]]>      
+	</insert>
+	
+  <select id="selectNewArticleNO" resultType="int"  >
+		<![CDATA[
+			SELECT  nvl(max(articleNO), 0) + 1 from t_board		
+		]]>
+	</select>
+	
+  <select id="selectArticle" resultType="articleVO"   parameterType="int">
+    <![CDATA[
+      SELECT * from t_board
+      where articleNO = #{articleNO}
+    ]]>
+  </select>
+  
+  <update id="updateArticle"  parameterType="java.util.Map">
+			update t_board
+			set title=#{title},	 
+			content=#{content}
+			where articleNO=#{articleNO}
+	</update>
+	
+	<delete id="deleteArticle"  parameterType="int">
+       <![CDATA[
+      delete from t_board
+      where articleNO in (
+        SELECT articleNO FROM  t_board
+         START WITH articleNO = #{articleNO}
+         CONNECT BY PRIOR  articleNO = parentNO )
+    ]]>      
+  </delete>
+
+  
+</mapper>

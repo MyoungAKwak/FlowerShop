@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.r_board">
+<resultMap id="reviewResult" type="reviewVO">
+    <result property="review_no" column="review_no" />
+    <result property="member_id" column="member_id" />
+    <result property="goods_id" column="goods_id" />    
+    <result property="review_content" column="review_content" />
+    <result property="review_date" column="review_date" />
+    <result property="review_star" column="review_star" />
+    <result property="fileName" column="fileName" />
+	<result property="goods_title" column="goods_title"/>
+	<result property="cnt" column ="cnt"/>
+ 	<result property="reviewfilename" column="reviewfilename" />
+	
+	
+	
+</resultMap> 
+
+<!-- 페이징기능 -->
+  <select id="selectTotArticles" resultType="int">
+  <![CDATA[
+  select count(review_no) from t_review_board
+  ]]>
+  </select>
+
+	<!-- 모든 리뷰 검색 -->
+  <select id="selectAllReviewList" parameterType="java.util.Map" resultMap="reviewResult"   >
+    <![CDATA[
+     select *
+		from(
+         SELECT rownum as recNum,
+         		a.review_no,
+                a.goods_id,
+                a.member_id,
+                 a.review_content,
+                 a.review_date,
+                 a.review_star,
+                 a.filename,
+                 b.goods_title,
+                 a.cnt
+         from T_REVIEW_BOARD a , T_shopping_goods b
+         where a.goods_id = b.goods_id
+         order by  review_date asc)
+		where recNum between(#{section}-1)*100+(#{pageNum}-1)*10+1 and (#{section}-1)*100+#{pageNum}*10
+		order by review_date asc
+    ]]>
+  </select>
+	
+  
+  <select id="selectReviewStar" resultType="reviewVO"  parameterType="int">
+    <![CDATA[
+      SELECT * from T_REVIEW_BOARD
+      where review_star = #{review_star}		
+      order by  review_date desc
+    ]]>
+  </select>
+  <!--리뷰 생성 -->
+ <insert id="insertNewReview"  parameterType="java.util.Map">
+		<![CDATA[
+			INSERT into t_review_board(review_no,member_id,goods_id,review_content,review_star,fileName)
+			VALUES(#{review_no},#{member_id},(select goods_id
+											 from t_shopping_goods
+											 where goods_title = #{goods_id}),
+											#{review_content},#{review_star},#{fileName})
+		]]>      
+</insert>
+
+<!-- 리뷰 수정 -->
+ <update id="updatePoint" parameterType="java.util.Map">
+ <![CDATA[
+  UPDATE t_shopping_member
+  SET member_point = member_point+500
+  WHERE #{fileName} !=null or #{fileName} !=' '
+  and 
+  member_id = #{member_id}
+     ]]>   
+	</update>	
+<!--  <update id="updatePoint" >
+ <![CDATA[
+  UPDATE t_shopping_member
+  SET member_point = member_point+500
+  WHERE member_id in
+    (SELECT member_id
+     FROM t_review_board 
+     WHERE fileName IS NOT NULL and review_no =#{review_no}) ;		
+     ]]>   
+	</update>	 -->
+	
+	<!-- 리뷰 번호 최대수 생성 -->
+  <select id="selectNewReviewNO" resultType="int"  >
+		<![CDATA[
+			SELECT  nvl(max(review_no), 0) + 1 from T_REVIEW_BOARD		
+		]]>
+	</select>
+	
+  
+ 
+  <update id="updateReview" parameterType="java.util.Map">
+			update t_review_board
+			set review_content=#{review_content}
+			 <if test="fileName!='' and fileName!=null">
+			  , fileName=#{fileName}
+			</if>
+			where review_no=#{review_no}
+	</update>
+	
+	<delete id="deleteReview"  parameterType="int">
+    <![CDATA[
+      delete from T_REVIEW_BOARD
+      where review_no = #{review_no}
+    ]]>      
+  </delete>
+  
+  
+	<select id="selectGoodsid" parameterType="int" resultMap="reviewResult">
+	<![CDATA[
+	select * from T_REVIEW_BOARD
+	where goods_id = #{goods_id}
+	order by review_date desc
+	]]>
+	</select>
+	
+	<select id="selectReview" resultMap = "reviewResult" parameterType="String">
+	<![CDATA[
+	select a.*,b.member_name,c.goods_id,c.goods_title
+	from t_review_board a,t_shopping_member b, t_shopping_goods c
+	where a.member_id = b.member_id 
+	and   a.goods_id = c.goods_id
+	and   a.review_no= #{review_no}
+	]]>
+	</select>
+	
+	<update id="updatecnt" parameterType="int">
+	update t_review_board
+	set cnt= cnt+1
+	where review_no = #{review_no}
+	</update>
+
+
+<!-- select가 상품일때 -->	
+	<select id="goodssSearch" resultMap = "reviewResult" parameterType="String">
+	<![CDATA[
+	select	  a.goods_id,
+			  a.review_no,
+              a.member_id,
+              a.review_content,
+              a.review_date,
+              a.review_star,
+              a.filename,
+              b.goods_title
+     from t_review_board a, (select goods_id,goods_title
+     						from t_shopping_goods
+     						where goods_title like '%'||#{detail}||'%') b
+     where a.goods_id = b.goods_id
+     order by a.review_date desc
+	]]>
+	</select>
+
+<!-- select가 작성자 일떄 -->
+	<select id="membersSearch" resultMap = "reviewResult" parameterType="String">
+	<![CDATA[
+	select a.goods_id,
+	a.review_no,
+		   a.member_id,
+		   a.review_content,
+		   a.review_date,
+		   a.review_star,
+		   a.filename,
+		   b.goods_title 
+	from t_review_board a, t_shopping_goods b 
+	where a.goods_id = b.goods_id 
+	and
+	a.member_id IN (select member_id from t_shopping_member where member_id LIKE '%'||#{detail}||'%') 
+	order by a.review_date desc
+	]]>
+	
+	</select>
+  
+</mapper>		

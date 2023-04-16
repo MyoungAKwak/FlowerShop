@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration 	PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+  <typeAliases>
+    <typeAlias type="com.prj.flower.goods.vo.GoodsVO" alias="goodsVO" />
+    <typeAlias type="com.prj.flower.goods.vo.ImageFileVO" alias="imageFileVO" />
+    <typeAlias type="com.prj.flower.member.vo.MemberVO" alias="memberVO" />
+    <typeAlias type="com.prj.flower.cart.vo.CartVO" alias="cartVO" />
+    <typeAlias type="com.prj.flower.order.vo.OrderVO" alias="orderVO" />
+    <typeAlias type="com.prj.flower.mypage.vo.MyPageVO" alias="mypageVO" />
+    <typeAlias type="com.prj.flower.q_board.vo.ArticleVO" alias="articleVO" />
+    <typeAlias type="com.prj.flower.r_board.vo.ReviewVO" alias="reviewVO" />
+  </typeAliases>
+</configuration>
+
+
+
