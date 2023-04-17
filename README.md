@@ -1,5 +1,5 @@
 # FlowerShop
-쇼핑몰의 기본 기능 구현에 집중하여 진행한 팀 프로젝트입니다.
+쇼핑몰의 기본 기능 구현에 집중하여 진행한 팀 프로젝트입니다.  
 꽃판매 쇼핑몰입니다.
 
 # Description
@@ -10,15 +10,17 @@
   - Oracle 11g DataBase,  Apache Tomcat 9.0
   
 # 주요 기능
-  - 프로젝트 개발환경 구축, 설계 참여
-  - 메인 페이지 구현
-  - Header 메인 메뉴 디자인 및 구성(검색)
-  - 상품 카테고리 페이지 구현(상품리스트, 페이징, 검색)
-  - 상품 상세페이지 구현 (수량에 따른 가격증가, 좋아요, 장바구니, 
-    구매하기, 리뷰, 상품문의)
-  - GitHub 레포지토리 전체 관리
-  - 팀원들의 Git Conflict 해결
-    
+- 유저
+  - 회원가입(이메일 인증api, 우편번호 검색api)  / 로그인 / 로그아웃
+  - 상품검색 / 상품조회
+  - 장바구니 / 결제
+  - 카카오페이 간편 결제 
+  - 리뷰게시판 - 사진 및 별점 첨부
+  - Q&A게시판
+- 관리자
+  - 상품관리 / 회원관리 / 주문관리
+  - Q&A 게시판 - 답글
+     
 # Views
 - **메인**
   <p align="center"><img src="https://github.com/77kkyu/Style_Is_You/blob/master/src/main/webapp/file/stu_main.gif?raw=true"/></p>
