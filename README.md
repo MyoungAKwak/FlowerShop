@@ -5,7 +5,7 @@
 # Description
 - 개발 기간: 2023.02.15 ~ 2023.3.12 ( 약 4주)
 - 사용 기술
-  - JAVA, JSP, jQuery, Spring, MyBatis, Oracle,
+  - JAVA, JSP, jQuery, Spring, MyBatis
   - HTML5, CSS3, JavaScript, Bootstrap, Tiles
   - Oracle 11g DataBase,  Apache Tomcat 9.0
   
