@@ -24,7 +24,7 @@
 # Views
 - **메인**
 
-![오늘의 꽃 - 메인](https://user-images.githubusercontent.com/114054982/235300030-ac84496f-d5be-4eb0-9a8b-b1598428cb31.gif)
+![쇼핑몰 메인](https://user-images.githubusercontent.com/114054982/235832729-9da30d3a-9cde-4bfa-a7ec-7ee62c50b321.jpg)
 
 
 
