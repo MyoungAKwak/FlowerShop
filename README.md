@@ -51,7 +51,6 @@
 
      
 # Views
-- **메인**
 
 ![쇼핑몰 메인](https://user-images.githubusercontent.com/114054982/235832729-9da30d3a-9cde-4bfa-a7ec-7ee62c50b321.jpg)
 
