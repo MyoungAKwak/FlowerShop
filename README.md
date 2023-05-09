@@ -4,9 +4,7 @@
 쇼핑몰의 기본 기능 구현에 집중하여 진행한 팀 프로젝트입니다.  
 꽃판매 쇼핑몰입니다.
 
-# Description
-- 개발 기간: 2023.02.15 ~ 2023.3.12 ( 약 4주)
-- 사용 기술
+# 기술스택
 <img src="https://img.shields.io/badge/JAVA-007396?style=flat-square&logo=java&logoColor=white">
 <img src="https://img.shields.io/badge/Spring-6DB33F?style=flat-square&logo=Spring&logoColor=white">
 <img src="https://img.shields.io/badge/JSP-007396?style=for-flat-square&logo=java&logoColor=white">
