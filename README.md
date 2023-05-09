@@ -1,8 +1,7 @@
 <div style=left>
 
 # 🛒 FlowerShop
-쇼핑몰의 기본 기능 구현에 집중하여 진행한 팀 프로젝트입니다.  
-꽃판매 쇼핑몰입니다.
+![쇼핑몰 메인](https://user-images.githubusercontent.com/114054982/235832729-9da30d3a-9cde-4bfa-a7ec-7ee62c50b321.jpg)
 
 # 기술스택
 <img src="https://img.shields.io/badge/JAVA-007396?style=flat-square&logo=java&logoColor=white">
@@ -48,13 +47,6 @@
 - 관리자
     - 상품 정보 변경 및 삭제
     - 회원관리, 주문관리
-
-     
-# Views
-
-![쇼핑몰 메인](https://user-images.githubusercontent.com/114054982/235832729-9da30d3a-9cde-4bfa-a7ec-7ee62c50b321.jpg)
-
-
 
   
 # 느낀점
